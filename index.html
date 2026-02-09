@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A cute Valentine's Day page to ask someone to be your Valentine!">
+  <meta name="description" content="A special message for my Za3bolety">
   <meta name="theme-color" content="#ffd0e5">
-  <title>Valentine's Day</title>
+  <title>For My Mozety ❤️</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
@@ -13,55 +13,38 @@
       background: linear-gradient(180deg, #ffd0e5 0%, #ffe8f2 36%, #ffffff 100%);
       min-height: 100vh;
     }
-
-    .bounce {
-      animation: bounce 2s ease infinite;
-    }
-
+    .bounce { animation: bounce 2s ease infinite; }
     @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(-20px);
-      }
-      60% {
-        transform: translateY(-10px);
-      }
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-20px); }
+      60% { transform: translateY(-10px); }
     }
   </style>
-  <!-- Preload images so transitions feel instant -->
-  <link rel="preload" as="image" href="./images/image1.gif">
-  <link rel="preload" as="image" href="./images/image2.gif">
-  <link rel="preload" as="image" href="./images/image3.gif">
-  <link rel="preload" as="image" href="./images/image4.gif">
-  <link rel="preload" as="image" href="./images/image5.gif">
-  <link rel="preload" as="image" href="./images/image6.gif">
-  <link rel="preload" as="image" href="./images/image7.gif">
 </head>
 <body class="gradient-background">
-  <main class="flex items-center justify-center h-screen">
-    <section class="flex flex-col items-center p-4">
-      <img
-        id="imageDisplay"
-        src="./images/image1.gif"
-        alt="Cute kitten with flowers"
-        class="rounded-md h-[300px] object-cover"
-      />
-      <h1 id="valentineQuestion" class="text-4xl font-bold italic text-[#bd1e59] my-4">
-        Will you be my Valentine?
-      </h1>
-      <div id="responseButtons" class="flex gap-4 pt-5 items-center">
-        <button
-          id="yesButton"
-          class="bounce inline-flex items-center justify-center whitespace-nowrap rounded-md text-xl font-medium cursor-pointer px-4 py-2 bg-green-500 text-white transition-all duration-300 ease-in-out hover:bg-green-400 min-h-12 min-w-[75px]"
-        >
-          Yes
+  <audio id="bgMusic" src="https://audio.jukehost.co.uk/jLtU9RDCZpuiggyn6Ngnneg62dChdZf5" preload="auto" loop></audio>
+
+  <main class="flex items-center justify-center min-h-screen">
+    <section class="flex flex-col items-center p-6 text-center max-w-2xl">
+      <img id="imageDisplay" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIycXByZzVreG1qZzR0ZzZ0ZzZ0ZzZ0ZzZ0ZzZ0ZzZ0ZzZ0Jm0mYyZfaW50ZXJuYWxfZ2lmX2J5X2lkJmNoPTQ4MA/MDJ9uLGiTLvMo/giphy.gif" alt="Cute kitten" class="rounded-md h-[250px] object-cover mb-6" />
+      
+      <div id="valentineQuestion" class="text-lg md:text-xl font-medium italic text-[#bd1e59] leading-relaxed">
+        <p class="mb-4">They say time flies when you’re having fun, but I think it actually flies because I’m always sprinting to keep up with your tiny steps.</p>
+        <p class="mb-4">We’ve been "us" for 5 months now, and honestly? It’s the best thing that’s ever happened to me. You’re officially small enough to fit in my pocket, but your heart is way too big for this little corner of the internet.</p>
+        <p class="mb-4">I wanted to build this space just for you because a regular text wasn't enough for my Mozety. You make every day better just by being your cute, short self—even if I have to look way down just to find you.</p>
+        <p class="mb-4">I’ve got the plans, I’ve got the vibes, and I’ve got 5 months of memories down with a lifetime to go.</p>
+        
+        <span class="text-3xl font-bold block mt-6 text-[#bd1e59]">
+          Will you be my Valentine?<br>
+          <span class="text-sm font-normal">(And don't even try to look for the 'No' button, you're too short to reach it anyway!)</span>
+        </span>
+      </div>
+
+      <div id="responseButtons" class="flex flex-wrap gap-4 pt-8 items-center justify-center">
+        <button id="yesButton" class="bounce inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-8 py-4 bg-green-500 text-white transition-all duration-300 hover:bg-green-400 min-h-12">
+          Yes!
         </button>
-        <button
-          id="noButton"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-xl font-medium cursor-pointer px-4 py-2 bg-red-500 text-white transition-colors hover:bg-red-700 h-12 min-w-[75px]"
-        >
+        <button id="noButton" class="inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-4 py-2 bg-red-500 text-white transition-colors hover:bg-red-700 h-12 min-w-[75px]">
           No
         </button>
       </div>
@@ -70,93 +53,48 @@
 
   <script>
     (() => {
-      // DOM references
       const yesButton = document.getElementById('yesButton');
       const noButton = document.getElementById('noButton');
       const imageDisplay = document.getElementById('imageDisplay');
       const valentineQuestion = document.getElementById('valentineQuestion');
       const responseButtons = document.getElementById('responseButtons');
+      const bgMusic = document.getElementById('bgMusic');
 
-      // Configuration
-      const GROWTH_PER_CLICK = 35;
-      const FONT_GROWTH_PER_CLICK = 25;
+      // Music starts on first click anywhere
+      document.body.addEventListener('click', () => { bgMusic.play(); }, { once: true });
+
+      let noClickCount = 0;
       const MAX_NO_CLICKS = 5;
 
-      const IMAGE_PATHS = [
-        './images/image1.gif',
-        './images/image2.gif',
-        './images/image3.gif',
-        './images/image4.gif',
-        './images/image5.gif',
-        './images/image6.gif',
-        './images/image7.gif',
-      ];
-
+      // YOUR CUSTOM COMMENTS
       const NO_BUTTON_MESSAGES = [
-        'No',
-        'Are you sure?',
-        'Pookie please',
-        "Don't do this to me :(",
-        "You're breaking my heart",
-        "I'm gonna cry...",
+        "No",
+        "Error: Button too high up?",
+        "Wait, let me get you a stool...",
+        "Still can't reach it, Za3bolety?",
+        "Try the 'Yes' button, it's easier.",
+        "Okay, now you're just being a hater 😂"
       ];
-
-      const ALT_TEXTS = [
-        'Cute kitten with flowers',
-        'Sad kitten looking up',
-        'Kitten begging',
-        'Heartbroken kitten',
-        'Crying kitten',
-        'Devastated kitten',
-        'Happy kitten celebrating',
-      ];
-
-      // State
-      let noClickCount = 0;
-      let buttonHeight = 48;
-      let buttonWidth = 80;
-      let fontSize = 20;
 
       noButton.addEventListener('click', () => {
-        if (noClickCount >= MAX_NO_CLICKS) return;
+        if (noClickCount < MAX_NO_CLICKS) {
+          noClickCount++;
+          
+          // Growth effect for Yes button
+          const newSize = 1 + (noClickCount * 0.6);
+          yesButton.style.transform = `scale(${newSize})`;
+          
+          // Move No button to random spot
+          const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+          const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+          
+          noButton.style.position = 'absolute';
+          noButton.style.left = `${x}px`;
+          noButton.style.top = `${y}px`;
 
-        noClickCount++;
-
-        // Update image and alt text
-        imageDisplay.src = IMAGE_PATHS[noClickCount];
-        imageDisplay.alt = ALT_TEXTS[noClickCount];
-
-        // Grow the "Yes" button to make it harder to ignore
-        buttonHeight += GROWTH_PER_CLICK;
-        buttonWidth += GROWTH_PER_CLICK;
-        fontSize += FONT_GROWTH_PER_CLICK;
-
-        yesButton.style.height = `${buttonHeight}px`;
-        yesButton.style.width = `${buttonWidth}px`;
-        yesButton.style.fontSize = `${fontSize}px`;
-
-        // Update "No" button text with increasingly desperate messages
-        noButton.textContent = NO_BUTTON_MESSAGES[noClickCount];
+          noButton.textContent = NO_BUTTON_MESSAGES[noClickCount];
+        }
       });
 
       yesButton.addEventListener('click', () => {
-        imageDisplay.src = IMAGE_PATHS[IMAGE_PATHS.length - 1];
-        imageDisplay.alt = ALT_TEXTS[ALT_TEXTS.length - 1];
-        valentineQuestion.textContent = 'Yayyy!! :3';
-        responseButtons.style.display = 'none';
-
-        // Heart-shaped confetti for a valentine theme
-        const heart = confetti.shapeFromPath({
-          path: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
-        });
-
-        const defaults = { spread: 360, ticks: 100, gravity: 0, decay: 0.94, startVelocity: 20, shapes: [heart], colors: ['#ff69b4', '#ff1493', '#ff6b81', '#e84393'] };
-
-        confetti({ ...defaults, particleCount: 50, scalar: 2 });
-        confetti({ ...defaults, particleCount: 25, scalar: 3 });
-        confetti({ ...defaults, particleCount: 10, scalar: 4 });
-      });
-    })();
-  </script>
-</body>
-</html>
+        imageDisplay.src = "
