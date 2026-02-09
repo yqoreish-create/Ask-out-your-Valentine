@@ -10,7 +10,7 @@
     .gradient-background { background: linear-gradient(180deg, #ffd0e5 0%, #ffe8f2 36%, #ffffff 100%); min-height: 100vh; }
     .bounce { animation: bounce 2s ease infinite; }
     @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-20px); } 60% { transform: translateY(-10px); } }
-    #noButton { transition: all 0.2s ease; z-index: 999; position: relative; }
+    #noButton { transition: all 0.2s ease; z-index: 999; }
   </style>
 </head>
 <body class="gradient-background">
@@ -18,14 +18,12 @@
 
   <main class="flex items-center justify-center min-h-screen">
     <section class="flex flex-col items-center p-6 text-center max-w-2xl">
-      <img id="imageDisplay" src="https://raw.githubusercontent.com/yqoreish-create/Ask-out-your-Valentine/main/images/image1.gif" 
-           onerror="this.src='https://media.tenor.com/9v1Y27i_t8AAAAAi/cute-cat.gif'"
-           alt="Cute kitten" class="rounded-md h-[250px] object-cover mb-6" />
+      <img id="imageDisplay" src="https://media.tenor.com/9v1Y27i_t8AAAAAi/cute-cat.gif" alt="Cute kitten" class="rounded-md h-[250px] object-cover mb-6" />
       
       <div id="valentineQuestion" class="text-lg md:text-xl font-medium italic text-[#bd1e59] leading-relaxed">
         <p class="mb-4">They say time flies when you’re having fun, but I think it actually flies because I’m always sprinting to keep up with your tiny steps.</p>
         <p class="mb-4">We’ve been "us" for 5 months now, and honestly? It’s the best thing that’s ever happened to me. You’re officially small enough to fit in my pocket, but your heart is way too big for this little corner of the internet.</p>
-        <p class="mb-4">I wanted to build this space just for you because a regular text wasn't enough for my Mozety. You make every day better just by being your cute, short self—even if I have to look way down just to find you.</p>
+        <p class="mb-4">I wanted to build this space just for you because a regular text wasn't enough for my Mozety. You make every day better just by being your cute, short self even if I have to look way down just to find you.</p>
         <p class="mb-4">I’ve got the plans, I’ve got the vibes, and I’ve got 5 months of memories down with a lifetime to go.</p>
         
         <span class="text-3xl font-bold block mt-6 text-[#bd1e59]">
@@ -34,7 +32,7 @@
         </span>
       </div>
 
-      <div id="responseButtons" class="flex flex-wrap gap-4 pt-8 items-center justify-center relative w-full">
+      <div id="responseButtons" class="flex flex-wrap gap-4 pt-8 items-center justify-center relative w-full min-h-[100px]">
         <button id="yesButton" class="bounce inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-8 py-4 bg-green-500 text-white transition-all duration-300 hover:bg-green-400">Yes!</button>
         <button id="noButton" class="inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-4 py-2 bg-red-500 text-white transition-all h-12 min-w-[75px]">No</button>
       </div>
