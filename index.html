@@ -19,6 +19,7 @@
       40% { transform: translateY(-20px); }
       60% { transform: translateY(-10px); }
     }
+    #noButton { transition: all 0.2s ease; z-index: 999; }
   </style>
 </head>
 <body class="gradient-background">
@@ -40,11 +41,11 @@
         </span>
       </div>
 
-      <div id="responseButtons" class="flex flex-wrap gap-4 pt-8 items-center justify-center">
-        <button id="yesButton" class="bounce inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-8 py-4 bg-green-500 text-white transition-all duration-300 hover:bg-green-400 min-h-12">
+      <div id="responseButtons" class="flex flex-wrap gap-4 pt-8 items-center justify-center relative w-full min-h-[100px]">
+        <button id="yesButton" class="bounce inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-8 py-4 bg-green-500 text-white transition-all duration-300 hover:bg-green-400">
           Yes!
         </button>
-        <button id="noButton" class="inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-4 py-2 bg-red-500 text-white transition-colors hover:bg-red-700 h-12 min-w-[75px]">
+        <button id="noButton" class="inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-4 py-2 bg-red-500 text-white transition-all h-12 min-w-[75px]">
           No
         </button>
       </div>
@@ -61,12 +62,13 @@
       const bgMusic = document.getElementById('bgMusic');
 
       // Music starts on first click anywhere
-      document.body.addEventListener('click', () => { bgMusic.play(); }, { once: true });
+      document.body.addEventListener('click', () => { 
+        bgMusic.play().catch(e => console.log("Music waiting for interaction"));
+      }, { once: true });
 
       let noClickCount = 0;
       const MAX_NO_CLICKS = 5;
 
-      // YOUR CUSTOM COMMENTS
       const NO_BUTTON_MESSAGES = [
         "No",
         "Error: Button too high up?",
@@ -77,25 +79,35 @@
       ];
 
       noButton.addEventListener('click', () => {
-        if (noClickCount < MAX_NO_CLICKS) {
-          noClickCount++;
-          
-          // Growth effect for Yes button
-          const newSize = 1 + (noClickCount * 0.6);
-          yesButton.style.transform = `scale(${newSize})`;
-          
-          // Move No button to random spot
-          const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
-          const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
-          
-          noButton.style.position = 'absolute';
-          noButton.style.left = `${x}px`;
-          noButton.style.top = `${y}px`;
+        noClickCount++;
+        
+        // 1. Move the button randomly so she has to chase it
+        const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+        noButton.style.position = 'fixed';
+        noButton.style.left = `${x}px`;
+        noButton.style.top = `${y}px`;
 
+        // 2. Grow the Yes button
+        const newSize = 1 + (noClickCount * 0.5);
+        yesButton.style.transform = `scale(${newSize})`;
+
+        // 3. Update the text
+        if (noClickCount <= MAX_NO_CLICKS) {
           noButton.textContent = NO_BUTTON_MESSAGES[noClickCount];
         }
       });
 
       yesButton.addEventListener('click', () => {
-        imageDisplay.src = "
+        // Final Happy GIF
+        imageDisplay.src = "https://media.tenor.com/p5_vclp8S8YAAAAi/tkthao219-bubududu.gif";
+        valentineQuestion.innerHTML = "<h1 class='text-4xl font-bold'>I knew you couldn't resist! ❤️</h1><p class='text-xl mt-4'>Happy 5 Months, Mozety!</p>";
+        responseButtons.style.display = 'none';
 
+        const heart = confetti.shapeFromPath({ path: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' });
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, shapes: [heart], colors: ['#ff69b4', '#ff1493'] });
+      });
+    })();
+  </script>
+</body>
+</html>
