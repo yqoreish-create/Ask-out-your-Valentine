@@ -3,23 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A special message for my Za3bolety">
-  <meta name="theme-color" content="#ffd0e5">
   <title>For My Mozety ❤️</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
-    .gradient-background {
-      background: linear-gradient(180deg, #ffd0e5 0%, #ffe8f2 36%, #ffffff 100%);
-      min-height: 100vh;
-    }
+    .gradient-background { background: linear-gradient(180deg, #ffd0e5 0%, #ffe8f2 36%, #ffffff 100%); min-height: 100vh; }
     .bounce { animation: bounce 2s ease infinite; }
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-      40% { transform: translateY(-20px); }
-      60% { transform: translateY(-10px); }
-    }
-    #noButton { transition: all 0.2s ease; z-index: 999; }
+    @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-20px); } 60% { transform: translateY(-10px); } }
+    #noButton { transition: all 0.2s ease; z-index: 999; position: relative; }
   </style>
 </head>
 <body class="gradient-background">
@@ -27,7 +18,9 @@
 
   <main class="flex items-center justify-center min-h-screen">
     <section class="flex flex-col items-center p-6 text-center max-w-2xl">
-      <img id="imageDisplay" src="https://media.tenor.com/9v1Y27i_t8AAAAAi/cute-cat.gif" alt="Cute kitten" class="rounded-md h-[250px] object-cover mb-6" />
+      <img id="imageDisplay" src="https://raw.githubusercontent.com/yqoreish-create/Ask-out-your-Valentine/main/images/image1.gif" 
+           onerror="this.src='https://media.tenor.com/9v1Y27i_t8AAAAAi/cute-cat.gif'"
+           alt="Cute kitten" class="rounded-md h-[250px] object-cover mb-6" />
       
       <div id="valentineQuestion" class="text-lg md:text-xl font-medium italic text-[#bd1e59] leading-relaxed">
         <p class="mb-4">They say time flies when you’re having fun, but I think it actually flies because I’m always sprinting to keep up with your tiny steps.</p>
@@ -41,13 +34,9 @@
         </span>
       </div>
 
-      <div id="responseButtons" class="flex flex-wrap gap-4 pt-8 items-center justify-center relative w-full min-h-[100px]">
-        <button id="yesButton" class="bounce inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-8 py-4 bg-green-500 text-white transition-all duration-300 hover:bg-green-400">
-          Yes!
-        </button>
-        <button id="noButton" class="inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-4 py-2 bg-red-500 text-white transition-all h-12 min-w-[75px]">
-          No
-        </button>
+      <div id="responseButtons" class="flex flex-wrap gap-4 pt-8 items-center justify-center relative w-full">
+        <button id="yesButton" class="bounce inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-8 py-4 bg-green-500 text-white transition-all duration-300 hover:bg-green-400">Yes!</button>
+        <button id="noButton" class="inline-flex items-center justify-center rounded-md text-xl font-medium cursor-pointer px-4 py-2 bg-red-500 text-white transition-all h-12 min-w-[75px]">No</button>
       </div>
     </section>
   </main>
@@ -58,52 +47,28 @@
       const noButton = document.getElementById('noButton');
       const imageDisplay = document.getElementById('imageDisplay');
       const valentineQuestion = document.getElementById('valentineQuestion');
-      const responseButtons = document.getElementById('responseButtons');
       const bgMusic = document.getElementById('bgMusic');
 
-      // Music starts on first click anywhere
-      document.body.addEventListener('click', () => { 
-        bgMusic.play().catch(e => console.log("Music waiting for interaction"));
-      }, { once: true });
+      document.body.addEventListener('click', () => { bgMusic.play().catch(e => {}); }, { once: true });
 
       let noClickCount = 0;
-      const MAX_NO_CLICKS = 5;
-
-      const NO_BUTTON_MESSAGES = [
-        "No",
-        "Error: Button too high up?",
-        "Wait, let me get you a stool...",
-        "Still can't reach it, Za3bolety?",
-        "Try the 'Yes' button, it's easier.",
-        "Okay, now you're just being a hater 😂"
-      ];
+      const NO_BUTTON_MESSAGES = ["No", "Error: Button too high up?", "Wait, let me get you a stool...", "Still can't reach it, Za3bolety?", "Try the 'Yes' button, it's easier.", "Okay, now you're just being a hater 😂"];
 
       noButton.addEventListener('click', () => {
         noClickCount++;
-        
-        // 1. Move the button randomly so she has to chase it
         const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
         const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
         noButton.style.position = 'fixed';
-        noButton.style.left = `${x}px`;
-        noButton.style.top = `${y}px`;
-
-        // 2. Grow the Yes button
-        const newSize = 1 + (noClickCount * 0.5);
-        yesButton.style.transform = `scale(${newSize})`;
-
-        // 3. Update the text
-        if (noClickCount <= MAX_NO_CLICKS) {
-          noButton.textContent = NO_BUTTON_MESSAGES[noClickCount];
-        }
+        noButton.style.left = x + 'px';
+        noButton.style.top = y + 'px';
+        yesButton.style.transform = `scale(${1 + (noClickCount * 0.4)})`;
+        if (noClickCount < NO_BUTTON_MESSAGES.length) noButton.textContent = NO_BUTTON_MESSAGES[noClickCount];
       });
 
       yesButton.addEventListener('click', () => {
-        // Final Happy GIF
         imageDisplay.src = "https://media.tenor.com/p5_vclp8S8YAAAAi/tkthao219-bubududu.gif";
         valentineQuestion.innerHTML = "<h1 class='text-4xl font-bold'>I knew you couldn't resist! ❤️</h1><p class='text-xl mt-4'>Happy 5 Months, Mozety!</p>";
-        responseButtons.style.display = 'none';
-
+        document.getElementById('responseButtons').style.display = 'none';
         const heart = confetti.shapeFromPath({ path: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' });
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, shapes: [heart], colors: ['#ff69b4', '#ff1493'] });
       });
